@@ -50,22 +50,43 @@ def main():
     )
     
     results = []
-    for item in tqdm(eval_data[:100]):  # limit to 100 for quick eval
-        prompt = item["prompt"]
+    print(f"Evaluating {len(eval_data)} samples...")
+    
+    for item in tqdm(eval_data):
+        prompt = f"### Instruction:\n{item['prompt']}\n\n### Response:\n"
+        
         base_response = generate_response(base_model, base_tok, prompt)
         tuned_response = generate_response(tuned_model, tuned_tok, prompt)
         
         results.append({
-            "prompt": prompt,
-            "base_response": base_response,
-            "tuned_response": tuned_response,
-            "expected": item.get("expected", "")
+            "prompt": item["prompt"],
+            "base_response": base_response.strip(),
+            "tuned_response": tuned_response.strip(),
+            "reference": item.get("response", "")
         })
     
+    # Calculate basic metrics
+    print("\nEvaluation Results:")
+    print(f"Total samples: {len(results)}")
+    
+    # Save detailed results
     with open("eval/custom_results.json", "w") as f:
         json.dump(results, f, indent=2)
     
-    print(f"Evaluated {len(results)} samples. Results saved to eval/custom_results.json")
+    # Save summary
+    summary = {
+        "total_samples": len(results),
+        "base_model": base_model_path,
+        "tuned_model": tuned_model_path,
+        "avg_base_length": sum(len(r["base_response"]) for r in results) / len(results),
+        "avg_tuned_length": sum(len(r["tuned_response"]) for r in results) / len(results)
+    }
+    
+    with open("eval/eval_summary.json", "w") as f:
+        json.dump(summary, f, indent=2)
+    
+    print(f"Results saved to eval/custom_results.json")
+    print(f"Summary saved to eval/eval_summary.json")
 
 if __name__ == "__main__":
     main()
