@@ -2,14 +2,14 @@
 
 Aletheia is a complete LLM training and serving pipeline focused on systems engineering and backend development expertise. Built on DeepSeek Coder 7B, Aletheia demonstrates a full production workflow: data curation → SFT → DPO → evaluation → serving.
 
-## 🎯 Project Goals
+## Project Goals
 
 - **Specialized Model**: Fine-tune DeepSeek Coder 7B for systems/backend engineering tasks
 - **Complete Pipeline**: End-to-end workflow from training to production serving
 - **Measurable Improvement**: Quantified performance gains over base model
 - **Production Ready**: Real-world serving infrastructure with API compatibility
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
@@ -23,7 +23,7 @@ Aletheia is a complete LLM training and serving pipeline focused on systems engi
    Pairs              Following          Better Alignment   API Endpoints
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Environment Setup
 ```bash
@@ -60,7 +60,7 @@ make cpu-convert
 make cpu-run
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 aletheia/
@@ -88,7 +88,7 @@ aletheia/
 └── docs/              # Documentation
 ```
 
-## 🎯 Training Process
+## Training Process
 
 ### Phase 1: Supervised Fine-Tuning (SFT)
 - **Base Model**: DeepSeek Coder 7B Instruct
@@ -106,7 +106,7 @@ aletheia/
 - Merge LoRA adapters into base model
 - Create standalone checkpoint for serving
 
-## 📊 Evaluation
+## Evaluation
 
 ### Benchmark Evaluation
 ```bash
@@ -125,7 +125,7 @@ make custom-eval
 ```
 Domain-specific evaluation on systems engineering tasks.
 
-## 🌐 Serving Options
+## Serving Options
 
 ### GPU Serving (vLLM)
 ```bash
@@ -158,7 +158,7 @@ make cpu-run
 python scripts/cpu_server.py
 ```
 
-## 🛠️ Available Commands
+## Available Commands
 
 | Command | Description |
 |---------|-------------|
@@ -176,7 +176,7 @@ python scripts/cpu_server.py
 | `make pipeline` | Run complete training pipeline |
 | `make clean` | Clean checkpoints and cache |
 
-## ⚙️ Configuration
+## Configuration
 
 ### Training Configuration
 Edit `training/cfg/sft.yaml` and `training/cfg/dpo.yaml` to adjust:
@@ -199,7 +199,7 @@ Edit `training/cfg/sft.yaml` and `training/cfg/dpo.yaml` to adjust:
   }
   ```
 
-## 🎛️ Customization
+## Customization
 
 ### Adding Your Own Data
 1. Replace sample data in `data/sft/` and `data/dpo/`
@@ -216,14 +216,14 @@ Edit `training/cfg/sft.yaml` and `training/cfg/dpo.yaml` to adjust:
 - **Speed**: Tune `batch_size` and `gradient_accumulation_steps`
 - **Quality**: Increase LoRA rank or training epochs
 
-## 📈 Expected Results
+## Expected Results
 
 With proper training data (1k+ samples), expect:
 - **Custom Evaluation**: 5-15% improvement in domain-specific tasks
 - **Benchmark Performance**: Maintained or slight improvement
 - **Response Quality**: Better structure, technical accuracy, and style
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -258,14 +258,14 @@ With proper training data (1k+ samples), expect:
 - 8GB+ RAM for Q4 quantization
 - M-series Mac or modern x86_64 CPU
 
-## 📚 Further Reading
+## Further Reading
 
 - [Training Guide](docs/training.md) - Detailed training instructions
 - [Evaluation Guide](docs/evaluation.md) - Comprehensive evaluation methodology
 - [Serving Guide](docs/serving.md) - Production deployment patterns
 - [Architecture Guide](docs/architecture.md) - Technical deep dive
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create feature branch (`git checkout -b feature/improvement`)
@@ -273,11 +273,11 @@ With proper training data (1k+ samples), expect:
 4. Push to branch (`git push origin feature/improvement`)
 5. Open Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - DeepSeek for the base model
 - Hugging Face for transformers and training libraries
