@@ -25,15 +25,29 @@ def generate_response(model, tokenizer, prompt, max_tokens=512):
     return tokenizer.decode(outputs[0][inputs.input_ids.shape[1]:], skip_special_tokens=True)
 
 def main():
-    base_model = "deepseek-ai/deepseek-coder-7b-instruct-v1.5"
-    tuned_model = "./checkpoints/aletheia-merged"
+    import sys
+    tuned_model_path = sys.argv[1] if len(sys.argv) > 1 else "./checkpoints/aletheia-merged"
+    base_model_path = "deepseek-ai/deepseek-coder-7b-instruct-v1.5"
+    
     eval_data = load_eval_data("./data/eval/*.jsonl")
     
-    base_tok = AutoTokenizer.from_pretrained(base_model)
-    base_model = AutoModelForCausalLM.from_pretrained(base_model, torch_dtype=torch.bfloat16)
+    print(f"Loading base model: {base_model_path}")
+    base_tok = AutoTokenizer.from_pretrained(base_model_path)
+    base_tok.pad_token = base_tok.eos_token
+    base_model = AutoModelForCausalLM.from_pretrained(
+        base_model_path, 
+        torch_dtype=torch.bfloat16,
+        device_map="auto"
+    )
     
-    tuned_tok = AutoTokenizer.from_pretrained(tuned_model)
-    tuned_model = AutoModelForCausalLM.from_pretrained(tuned_model, torch_dtype=torch.bfloat16)
+    print(f"Loading tuned model: {tuned_model_path}")
+    tuned_tok = AutoTokenizer.from_pretrained(tuned_model_path)
+    tuned_tok.pad_token = tuned_tok.eos_token
+    tuned_model = AutoModelForCausalLM.from_pretrained(
+        tuned_model_path, 
+        torch_dtype=torch.bfloat16,
+        device_map="auto"
+    )
     
     results = []
     for item in tqdm(eval_data[:100]):  # limit to 100 for quick eval
