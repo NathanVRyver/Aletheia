@@ -1,0 +1,8 @@
+base_model: ./checkpoints/aletheia-sft
+dataset_path: ./data/dpo/*.jsonl
+output_dir: ./checkpoints/aletheia-dpo
+beta: 0.1
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 16
+epochs: 1
+lr: 1e-5
