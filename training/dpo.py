@@ -1,4 +1,5 @@
 import json, glob
+import torch
 from datasets import Dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from trl import DPOTrainer, DPOConfig
@@ -16,7 +17,7 @@ def load_pairs(glob_path):
 def main(cfg):
     tok = AutoTokenizer.from_pretrained(cfg["base_model"], use_fast=True)
     tok.pad_token = tok.eos_token
-    model = AutoPeftModelForCausalLM.from_pretrained(cfg["base_model"], device_map="auto", torch_dtype="bfloat16")
+    model = AutoPeftModelForCausalLM.from_pretrained(cfg["base_model"], device_map="auto", torch_dtype=torch.bfloat16)
     ds = load_pairs(cfg["dataset_path"])
     trainer = DPOTrainer(
         model=model, 
